@@ -67,7 +67,6 @@ jobs:
 
       - name: Initialize Terraform
         run: terraform init
-        
 
       - name: Destroy Terraform
         run: terraform destroy -auto-approve
