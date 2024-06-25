@@ -13,10 +13,17 @@ provider "azurerm" {
   skip_provider_registration = true
 }
 
-# Data source para referenciar um Resource Group existente
-data "azurerm_resource_group" "existing_rg" {
-  name = var.resource_group_name
+
+# Definição do grupo de recursos
+resource "azurerm_resource_group" "example" {
+  name     = "labterraform"
+  location = "East US"  # Substitua pela região desejada
 }
+
+# # Data source para referenciar um Resource Group existente
+# data "azurerm_resource_group" "existing_rg" {
+#   name = var.resource_group_name
+# }
 
 # Criação do SQL Server
 resource "azurerm_mssql_server" "example" {
