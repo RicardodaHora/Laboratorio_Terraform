@@ -1,55 +1,72 @@
+name: 'Terraform Azure'
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'Action to perform'
+        required: true
+        default: 'apply'
+        type: choice
+        options:
+          - apply
+          - destroy
+
 jobs:
   terraform:
     runs-on: ubuntu-latest
-    if: github.event.inputs.action == 'apply'
+    if: ${{ github.event.inputs.action == 'apply' }}
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Set up Terraform
-      uses: hashicorp/setup-terraform@v2
-      with:
-        terraform_version: 1.0.8
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.0.8
 
-    - name: Authenticate to Azure
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Authenticate to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: Initialize Terraform
-      run: terraform init
+      - name: Initialize Terraform
+        run: terraform init
 
-    - name: Plan Terraform
-      run: terraform plan
+      - name: Plan Terraform
+        run: terraform plan
 
-    - name: Apply Terraform
-      if: github.ref == 'refs/heads/main'
-      run: terraform apply -auto-approve
+      - name: Apply Terraform
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run: terraform apply -auto-approve
 
   destroy:
     runs-on: ubuntu-latest
-    if: github.event.inputs.action == 'destroy'
+    if: ${{ github.event.inputs.action == 'destroy' }}
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Set up Terraform
-      uses: hashicorp/setup-terraform@v2
-      with:
-        terraform_version: 1.0.8
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.0.8
 
-    - name: Authenticate to Azure
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Authenticate to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: Debug Inputs
-      run: echo "Action: ${{ github.event.inputs.action }}"
+      - name: Debug Inputs
+        run: echo "Action: ${{ github.event.inputs.action }}"
 
-    - name: Initialize Terraform
-      run: terraform init
+      - name: Initialize Terraform
+        run: terraform init
 
-    - name: Destroy Terraform
-      run: terraform destroy -auto-approve
+      - name: Destroy Terraform
+        run: terraform destroy -auto-approve
