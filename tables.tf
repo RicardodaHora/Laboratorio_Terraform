@@ -6,6 +6,7 @@ resource "null_resource" "create_sql_table" {
     always_run = "${timestamp()}"
   }
 
+
   provisioner "local-exec" {
     command = <<EOT
       sqlcmd -S ${azurerm_mssql_server.example.fully_qualified_domain_name} -U ${azurerm_mssql_server.example.administrator_login} -P '${azurerm_mssql_server.example.administrator_login_password}' -d ${azurerm_mssql_database.example.name} -Q "
