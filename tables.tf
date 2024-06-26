@@ -7,12 +7,6 @@ terraform {
   }
 }
 
-# Configuração do provider AzureRM
-provider "azurerm" {
-  features {}
-  skip_provider_registration = true
-}
-
 # Provisionar a tabela SQL
 resource "null_resource" "create_sql_table" {
   triggers = {
