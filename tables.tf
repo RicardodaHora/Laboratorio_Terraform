@@ -1,13 +1,6 @@
-terraform {
-  required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = ">= 3.0"
-    }
-  }
-}
+# tables.tf
 
-# Provisionar a tabela SQL
+# Criação da tabela SQL
 resource "null_resource" "create_sql_table" {
   triggers = {
     always_run = "${timestamp()}"
