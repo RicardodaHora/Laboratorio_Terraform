@@ -15,6 +15,7 @@ on:
           - apply
           - destroy
 
+          
 jobs:
   terraform:
     runs-on: ubuntu-latest
